@@ -120,6 +120,10 @@ def test_transform():
 def target_sample():
 
 	sample_matrixes = []
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9b57651e358eac23d261ab2f07a8a198f293b6d0
 	img = cv2.imread("test/Darren.jpg")
 	calib = cv2.imread("calibration_file/calibration.jpg")
 	
@@ -246,6 +250,32 @@ def target_sample():
 			# continue
 		pts2 = np.float32([[x_0f_1, y_0f_1],[x_0f_2, y_0f_2],[x_0f_3, y_0f_3], [x_0f_4, y_0f_4]])
 		# print("pts1 is: ", pts1, "\npts2 is:", pts2)
+<<<<<<< HEAD
+=======
+		M = cv2.getAffineTransform(pts1,pts2)
+		
+		print("M is: ", M)
+		# return 8 number parameter
+		sample_matrixes.append([M[0][0], M[0][1], M[0][2], M[1][0], M[1][1], M[1][2], 0, 0])
+
+		dst = cv2.warpAffine(img, M, (width, height))
+		img_resized = cv2.resize(img, (448, 448))
+		dst_resized = cv2.resize(dst, (448, 448))
+								
+		cv2.namedWindow("camera", cv2.WINDOW_NORMAL)
+		# cv2.imshow('camera', img_resized)
+		# cv2.waitKey()
+								
+		cv2.imshow('camera', dst_resized)
+		cv2.waitKey()
+		
+		# print(pts2)
+		# print(x, y, z, a, b, g)
+
+	return sample_matrixes
+	# Shift
+	# M = np.float32([[1, 0, 200], [0, 1, 100]]) 
+>>>>>>> 9b57651e358eac23d261ab2f07a8a198f293b6d0
 
 		# M = cv2.getAffineTransform(pts1,pts2)
 		M0 = cv2.getPerspectiveTransform(pts1,pts2)
@@ -335,6 +365,7 @@ def random_sample():
 	max_distance = 2600
 	distance_step = 200
 
+<<<<<<< HEAD
 	# Get random Sample in Spherical coordinate system.
 
 	r_l = [500, 700, 900]
@@ -506,4 +537,92 @@ if __name__=='__main__':
 	#test_transform()
 	# target_sample()
 	random_sample()
+=======
+	for x in range(-max_distance, max_distance, distance_step):
+		# print(x)
+		for y in range(-max_distance, max_distance, distance_step):
+			print (x, y)
+			for z in range(-1600, 1600, 200):
+				for i in range(18):
+					a = -max_a + max_a / 9 * i
+					for j in range(18):
+						b = -max_b + max_b / 9 * j
+						for k in range(18):
+							g = -max_g + max_g / 9 * k
+							print(x, y, z, a, b, g)
+							V1_ = transform6para(V1, x, y, z, a, b, g)
+							V2_ = transform6para(V2, x, y, z, a, b, g)
+							V3_ = transform6para(V3, x, y, z, a, b, g)
+						
+							x_f_1 = x_f0 * V1_[0] / V1_[2] * (-2000) / 92.3
+							y_f_1 = y_f0 * V1_[1] / V1_[2] * (2000) / 135.8
+							x_0f_1 = 1512 + x_f_1
+							y_0f_1 = 1512 + y_f_1
+							print("x_f0 is: ", x_f0, "\nx_f_1 is: ", x_f_1)
+							print("y_f0 is: ", y_f0, "\ny_f_1 is: ", y_f_1)
+					
+							x_f_2 = x_f0 * V2_[0] / V2_[2] * (-2000) / 92.3
+							y_f_2 = y_f0 * V2_[1] / V2_[2] * (2000) / 135.8
+							x_0f_2 = 1512 + x_f_2
+							y_0f_2 = 1512 + y_f_2
+							print("x_f0 is: ", x_f0, "\nx_f_2 is: ", x_f_2)
+							print("y_f0 is: ", y_f0, "\ny_f_2 is: ", y_f_2)
+					
+							x_f_3 = x_f0 * V3_[0] / V3_[2] * (-2000) / 92.3
+							y_f_3 = y_f0 * V3_[1] / V3_[2] * (2000) / 135.8
+							x_0f_3 = 1512 + x_f_3
+							y_0f_3 = 1512 + y_f_3
+							print("x_f0 is: ", x_f0, "\nx_f_3 is: ", x_f_3)
+							print("y_f0 is: ", y_f0, "\ny_f_3 is: ", y_f_3)
+					
+							if(x_0f_1 < 0 or x_0f_1 > 3024 or y_0f_1 < 0 or y_0f_1 > 3024 or x_0f_2 < 0 or x_0f_2 > 3024 or \
+								y_0f_2 < 0 or y_0f_2 > 3024 or x_0f_3 < 0 or x_0f_3 > 3024 or y_0f_3 < 0 or y_0f_3 > 3024):
+								continue
+							pts2 = np.float32([[x_0f_1, y_0f_1],[x_0f_2, y_0f_2],[x_0f_3, y_0f_3]])
+							print("pts1 is: ", pts1, "\npts2 is:", pts2)
+							M = cv2.getAffineTransform(pts1,pts2)
+						
+							
+							dst = cv2.warpAffine(img, M, (width, height))
+							img_resized = cv2.resize(img, (448, 448))
+							dst_resized = cv2.resize(dst, (448, 448))
+							
+
+							cv2.namedWindow("camera", cv2.WINDOW_NORMAL)
+							# cv2.imshow('camera', img_resized)
+							# cv2.waitKey()
+													
+							cv2.imshow('camera', dst_resized)
+							cv2.waitKey()
+							
+							# print(pts2)
+							# print(x, y, z, a, b, g)
+
+	# Shift
+	# M = np.float32([[1, 0, 200], [0, 1, 100]]) 
+
+	# Affine Transformation
+	# Test cv2 affine ransformation here
+
+	pts1 = np.float32([[50,50],[200,50],[50,200]])
+	pts2 = np.float32([[10,100],[200,50],[100,300]])
+	M = cv2.getAffineTransform(pts1,pts2)
+ 
+	dst = cv2.warpAffine(img, M, (width, height))   
+
+	img_resized = cv2.resize(img, (448, 448))
+	dst_resized = cv2.resize(dst, (448, 448))
+
+	cv2.namedWindow("camera", cv2.WINDOW_NORMAL)
+	cv2.imshow('camera', img_resized)
+	cv2.waitKey()
+
+	cv2.imshow('camera', dst_resized)
+	cv2.waitKey()
+
+if __name__=='__main__':
+	#test_transform()
+	print(target_sample())
+	# random_sample()
+>>>>>>> 9b57651e358eac23d261ab2f07a8a198f293b6d0
 
